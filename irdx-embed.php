@@ -272,9 +272,10 @@ class IRDX_Item {
 		return $this->title;
 	}
 
-	function get_thumbnail() {
+	function get_thumbnail( $args ) {
+		$args = wp_parse_args( $args, array( 'alt' => $this->get_title(), 'class' => '' ) );
 		if ( isset( $this->thumbnail ) )
-			return sprintf( '<img src="%s" alt="" />', esc_url_raw( $this->thumbnail ) );
+			return sprintf( '<img src="%s" alt="%s" class="%s" />', esc_url_raw( $this->thumbnail ), esc_attr( $args[ 'alt' ] ), esc_attr( $args[ 'class' ] ) );
 		else
 			return false;
 	}
