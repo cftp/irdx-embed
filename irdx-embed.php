@@ -54,7 +54,6 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 
 		# Actions:
 		add_action( 'init',        array( $this, 'init' ) );
-		add_action( 'save_post',   array( $this, 'save_post' ), 10, 2 );
 
 		# Filters:
 		add_filter( 'the_content', array( $this, 'the_content' ), 200 );
