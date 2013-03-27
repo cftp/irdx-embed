@@ -27,6 +27,7 @@ if ( !defined( 'IRDX_URL' ) )
 	define( 'IRDX_URL', 'http://internetretailing.net/irdx-json/%s/' );
 
 require_once dirname( __FILE__ ) . '/class.plugin.php';
+require_once dirname( __FILE__ ) . '/template.php';
 
 class IRDX_Embed extends IRDX_Embed_Plugin {
 
@@ -198,7 +199,7 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 			return $request;
 
 		if ( 200 != wp_remote_retrieve_response_code( $request ) )
-			return new WP_Error( 'http_error', __( 'Unable to connect to IRDX server', 'irdx_embed' ) );
+			return new WP_Error( 'http_error', __( 'Unable to connect to IRDX server at ' . $url, 'irdx_embed' ) );
 
 		$json = trim( wp_remote_retrieve_body( $request ) );
 
