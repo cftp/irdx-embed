@@ -3,7 +3,7 @@
 Plugin Name: IRDX Embed (Internet Retailing Directory)
 Plugin URI:  https://github.com/cftp/irdx-embed
 Description: Embed IRDX links into your WordPress site
-Version:     1.1
+Version:     1.1.2
 Author:      Code for the People
 Author URI:  http://codeforthepeople.com/
 
@@ -152,7 +152,7 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 		if ( isset( $this->irdxs[$code] ) )
 			return $this->irdxs[$code];
 
-		$cache_key = sprintf( 'irdx-%s-1.1', $code );
+		$cache_key = sprintf( 'irdx-%s-1.1.2', $code );
 		$irdx      = get_site_transient( $cache_key ) ;
 
 		if ( $irdx ) {
@@ -283,8 +283,8 @@ class IRDX_Item {
 
 	function get_image( $size, $args = array() ) {
 		$args = wp_parse_args( $args, array( 'alt' => $this->get_title(), 'class' => '' ) );
-		if ( isset( $this->images[$size] ) )
-			return sprintf( '<img src="%s" alt="%s" class="%s" />', esc_url_raw( $this->images[$size] ), esc_attr( $args[ 'alt' ] ), esc_attr( $args[ 'class' ] ) );
+		if ( isset( $this->images->$size ) )
+			return sprintf( '<img src="%s" alt="%s" class="%s" />', esc_url_raw( $this->images->$size ), esc_attr( $args[ 'alt' ] ), esc_attr( $args[ 'class' ] ) );
 		else
 			return false;
 	}
