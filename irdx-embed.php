@@ -3,7 +3,7 @@
 Plugin Name: IRDX Embed (Internet Retailing Directory)
 Plugin URI:  https://github.com/cftp/irdx-embed
 Description: Embed IRDX links into your WordPress site
-Version:     1.1
+Version:     1.1.1
 Author:      Code for the People
 Author URI:  http://codeforthepeople.com/
 
