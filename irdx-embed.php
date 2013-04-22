@@ -3,7 +3,7 @@
 Plugin Name: IRDX Embed (Internet Retailing Directory)
 Plugin URI:  https://github.com/cftp/irdx-embed
 Description: Embed IRDX links into your WordPress site
-Version:     1.1.2
+Version:     1.1.3
 Author:      Code for the People
 Author URI:  http://codeforthepeople.com/
 
@@ -152,7 +152,7 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 		if ( isset( $this->irdxs[$code] ) )
 			return $this->irdxs[$code];
 
-		$cache_key = sprintf( 'irdx-%s-1.1.2', $code );
+		$cache_key = sprintf( 'irdx-%s-1.1.3', $code );
 		$irdx      = get_site_transient( $cache_key ) ;
 
 		if ( $irdx ) {
@@ -169,8 +169,8 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 
 		if ( $response->valid ) {
 
-			# Cache valid responses for 24 hours
-			set_site_transient( $cache_key, $response, 60*60*24 );
+			# Cache valid responses for 10 mins
+			set_site_transient( $cache_key, $response, 60*10 );
 			$irdx = new IRDX_item( $response );
 
 		} else {
@@ -284,7 +284,7 @@ class IRDX_Item {
 	function get_image( $size, $args = array() ) {
 		$args = wp_parse_args( $args, array( 'alt' => $this->get_title(), 'class' => '' ) );
 		if ( isset( $this->images->$size ) )
-			return sprintf( '<img src="%s" alt="%s" class="%s" />', esc_url_raw( $this->images->$size ), esc_attr( $args[ 'alt' ] ), esc_attr( $args[ 'class' ] ) );
+			return sprintf( '<img src="%s" alt="%s" class="%s" />', esc_url( $this->images->$size ), esc_attr( $args[ 'alt' ] ), esc_attr( $args[ 'class' ] ) );
 		else
 			return false;
 	}
