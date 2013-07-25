@@ -3,7 +3,7 @@
 Plugin Name: IRDX Embed (Internet Retailing Directory)
 Plugin URI:  https://github.com/cftp/irdx-embed
 Description: Embed IRDX links into your WordPress site
-Version:     1.1.3
+Version:     1.2.0
 Author:      Code for the People
 Author URI:  http://codeforthepeople.com/
 
@@ -72,8 +72,10 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 	 **/
 	function init() {
 
-		add_shortcode( 'irdx', array( $this, 'shortcode' ) );
-		add_shortcode( 'IRDX', array( $this, 'shortcode' ) );
+		add_shortcode( 'irdx', array( $this, 'shortcode_mention' ) );
+		add_shortcode( 'IRDX', array( $this, 'shortcode_mention' ) );
+		add_shortcode( 'show-irdx', array( $this, 'shortcode_profile' ) );
+		add_shortcode( 'SHOW-IRDX', array( $this, 'shortcode_profile' ) );
 
 	}
 
@@ -106,7 +108,7 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 	 * @return string The shortcode markup
 	 * @author John Blackbourn / Simon Wheatley
 	 */
-	function shortcode( $atts ) {
+	function shortcode_mention( $atts ) {
 
 		global $post;
 		
@@ -135,6 +137,35 @@ class IRDX_Embed extends IRDX_Embed_Plugin {
 			$irdx->get_permalink(),
 			esc_html( strtoupper( $code ) )
 		);
+
+	}
+
+	/**
+	 * [show-irdx XXXX] shortcode handler
+	 *
+	 * @param array $atts Shortcode attributes
+	 * @return string The shortcode markup
+	 * @author Simon Wheatley
+	 */
+	function shortcode_profile( $atts ) {
+
+		global $post;
+		
+		if ( !isset( $atts[0] ) )
+			return '';
+
+		$code = strtoupper( trim( $atts[0] ) );
+		$irdx = $this->get_irdx( $code );
+		
+		if ( is_wp_error( $irdx ) ) {
+			if ( current_user_can( 'edit_post', get_the_ID() ) )
+				return '<span><strong style="color:#c00">' . $irdx->get_error_message() . '</strong></span>';
+			else
+				return '??';
+		}
+
+		$html = $this->irdx_box( $irdx, 1, get_post_type());
+		return $html;
 
 	}
 
